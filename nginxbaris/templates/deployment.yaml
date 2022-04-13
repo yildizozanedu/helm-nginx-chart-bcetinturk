@@ -27,12 +27,19 @@ spec:
       serviceAccountName: {{ include "nginxbaris.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: nginx-main-conf
+          configMap:
+            name: nginx-main-conf
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: nginx-main-conf
+              mountPath: /etc/nginx
           ports:
             - name: http
               containerPort: 80
