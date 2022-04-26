@@ -21,3 +21,6 @@ resources:
   ##    cpu: 100m
   ##    memory: 128Mi
   requests: {}
+
+nginxconf:
+  worker_connections: 8192
